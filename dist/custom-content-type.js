@@ -1,34 +1,26 @@
-import { App, createApp, VNode, Slot, h, AppContext, render as vueRender } from "vue";
-import { createPlugin, PluginDef } from "@fullcalendar/core";
-
-interface RootComponentData {
-    content: VNode[];
-}
-
+import { createApp, h, render as vueRender } from "vue";
+import { createPlugin } from "@fullcalendar/core";
 /*
 wrap it in an object with a `vue` key, which the custom content-type handler system will look for
 */
-export function wrapVDomGenerator(vDomGenerator: Slot) {
-    return function (props: any) {
+export function wrapVDomGenerator(vDomGenerator) {
+    return function (props) {
         return { vue: vDomGenerator(props) };
     };
 }
-
-export function createVueContentTypePlugin(instance: any): PluginDef {
+export function createVueContentTypePlugin(instance) {
     return createPlugin({
         contentTypeHandlers: {
             vue: () => buildVDomHandler(instance), // looks for the `vue` key
         },
     });
 }
-
-function buildVDomHandler(instance: any) {
-    function render(el: HTMLElement, vDomContent: VNode[]) {
-        vDomContent.forEach((vNode: VNode) => {
+function buildVDomHandler(instance) {
+    function render(el, vDomContent) {
+        vDomContent.forEach((vNode) => {
             vNode.appContext = instance.appContext;
             console.log(vNode, instance.appContext, vDomContent);
             vueRender(vNode, el);
-
             //vNode.component.parent = instance;
         });
         // console.log(vDomContent, instance);
@@ -40,9 +32,7 @@ function buildVDomHandler(instance: any) {
         //const innerEl = document.createElement("div");
         //const innerNode = h("div", { class: "fc-event-1" }, output);
         //innerNode.appContext = appContext;
-
         //vueRender(innerNode, output);
-
         // // the handler
         // if (currentEl !== el) {
         //     if (currentEl && app) {
@@ -61,30 +51,28 @@ function buildVDomHandler(instance: any) {
         //     componentInstance.content = vDomContent;
         // }
     }
-
-    function destroy() {}
-
+    function destroy() { }
     return { render, destroy };
 }
-
-function initApp(initialContent: VNode[], appContext: AppContext): App {
+function initApp(initialContent, appContext) {
     // TODO: do something with appContext
     return createApp({
         data() {
             return {
                 content: initialContent,
-            } as RootComponentData;
+            };
         },
         render() {
             const { content } = this;
-
             // the slot result can be an array, but the returned value of a vue component's
             // render method must be a single node.
             if (content.length === 1) {
                 return content[0];
-            } else {
+            }
+            else {
                 return h("span", {}, content);
             }
         },
     });
 }
+//# sourceMappingURL=custom-content-type.js.map
