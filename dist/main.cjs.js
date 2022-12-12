@@ -2,7 +2,6 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-require('@fullcalendar/core/vdom');
 var vue = require('vue');
 var core = require('@fullcalendar/core');
 

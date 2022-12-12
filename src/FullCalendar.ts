@@ -1,4 +1,3 @@
-import "@fullcalendar/core/vdom";
 import { PropType, defineComponent, h, Teleport, VNode } from "vue";
 import { Calendar, CalendarOptions } from "@fullcalendar/core";
 import { OPTION_IS_COMPLEX } from "./options";

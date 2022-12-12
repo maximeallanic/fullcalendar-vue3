@@ -1,4 +1,3 @@
-import "@fullcalendar/core/vdom";
 import { PropType } from "vue";
 import { CalendarOptions } from "@fullcalendar/core";
 declare const FullCalendar: import("vue").DefineComponent<{
